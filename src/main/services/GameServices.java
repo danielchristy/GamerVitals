@@ -1,7 +1,6 @@
 package main.services;
 
 import main.models.Game;
-import main.models.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,29 +20,55 @@ public class GameServices {
         }
     }
 
-    public void addGame(Game game) {
+    public static void addGame(Game game) {
         System.out.println(game.getGameId() + ": " + game.getGameTitle() + " has been created.");
     }
 
-    public Game getGamebyId(int gameId) {
-        return gameMap.get(gameId);
-    }
-
-    public void listAllGames() {
+    public static void listAllGames() {
         for (Game game : games) {
             System.out.println(game.getGameId() + ": " + game.getGameTitle());
         }
     }
 
-    public void getGameGenre(Game game) {
-        System.out.println(game.getGameTitle() + ": " + game.getGenre());
+    public static void getGamebyId(int gameId) {
+        gameMap.get(gameId);
     }
 
-    public void getGamePublisher(Game game) {
-        System.out.println(game.getGameTitle() + ": " + game.getPublisher());
+    public static Game getGamebyTitle(String title) {
+        for (Game game : games)
+            if (game.getGameTitle().equals(title)) {
+                return game;
+            } else {
+                System.out.println("Invalid game title, or does not exist.");
+            }
+        return null;
     }
 
-    public void getGamePlatform(Game game) {
-        System.out.println(game.getGameTitle() + ": " + game.getPlatform());
+    public static String getGameGenre(String title) {
+        for (Game game : games)
+            if (game.getGameTitle().equals(title)) {
+                return game.getGenre();
+            } else {
+                System.out.println("Invalid game, or does not exist.");
+            }
+        return null;
+    }
+
+    public static String getGamePublisher(String title) {
+        for (Game game : games)
+            if (game.getGameTitle().equals(title)) {
+                return game.getPublisher();
+            } else {
+                System.out.println("Invalid game, or does not exist.");
+            }
+        return null;
+    }
+
+    public static String getGamePlatform(String title) {
+        for (Game game : games)
+            if (game.getGameTitle().equals(title)) {
+                return game.getPlatform();
+            }
+        return null;
     }
 }

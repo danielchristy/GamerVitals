@@ -19,13 +19,26 @@ public class UserServices {
         for (User user : users) {
             userMap.put(user.getUserId(), user);
         }
-
     }
-    public void addUser(User user) {
-        users.add(user);
-        userMap.put(user.getUserId(), user);
 
-        System.out.println(user.getUserId() + ": " + user.getUsername() + " has been created.");
+    public static User addUser(String username, String email, String password, String country) {
+        int lastUserId = 0;
+        int newUserId = 0;
+        for (User user : users) {
+            if (user.getUserId() > lastUserId) {
+                lastUserId = user.getUserId();
+                newUserId = lastUserId + 1;
+            }
+        }
+
+        User newUser = new User(newUserId, username, email, password, country);
+
+        users.add(newUser);
+        userMap.put(newUser.getUserId(), newUser);
+
+        System.out.println(newUser.getUserId() + ": " + newUser.getUsername() + " has been created.");
+        return newUser;
+
     }
 
     public static String getUserPassword(String password) {
@@ -54,7 +67,7 @@ public class UserServices {
             if (user.getUsername().equals(username)) {
                 return user;
             } else {
-                System.out.println("Invalid User ID, or does not exist.");
+                System.out.println("Invalid username, or does not exist.");
             }
         return null;
     }
@@ -79,5 +92,8 @@ public class UserServices {
         return "";
     }
 
+    public static boolean checkPassword(User user, String password) {
+        return user.getPassword().equals(password);
+    }
 
 }
