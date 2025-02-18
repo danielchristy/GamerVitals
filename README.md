@@ -1,5 +1,4 @@
-# GamerVitals
-## BCCA UNIT 7 PROJECT (JAVA)
+# GamerVitals - BCCA UNIT 7 PROJECT (JAVA)
 
 ---
 
