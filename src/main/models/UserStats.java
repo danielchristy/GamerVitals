@@ -1,13 +1,13 @@
 package main.models;
 
-public class UserGameStats {
+public class UserStats {
     private int userId;
     private int gameId;
     private int timePlayed;
     private String currentRank;
     private String peakRank;
 
-    public UserGameStats(int userId, int gameId, int timePlayed, String currentRank, String peakRank) {
+    public UserStats(int userId, int gameId, int timePlayed, String currentRank, String peakRank) {
         this.userId = userId;
         this.gameId = gameId;
         this.timePlayed = timePlayed;
