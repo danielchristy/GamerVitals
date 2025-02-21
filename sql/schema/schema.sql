@@ -2,11 +2,11 @@ CREATE TYPE user_role AS ENUM ('player', 'developer', 'recruiter', 'admin');
 
 CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(50) UNIQUE NOT NULL,
-    role user_role NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
     country VARCHAR(100) NOT NULL,
+    role user_role NOT NULL,
+    password VARCHAR(50) UNIQUE NOT NULL,
     created_on TIMESTAMP NOT NULL
 );
 

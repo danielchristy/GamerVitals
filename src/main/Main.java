@@ -3,10 +3,8 @@ package main;
 import main.utilities.DatabaseConnection;
 import main.utilities.interfaces.*;
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
-
 
 public class Main {
 
@@ -21,7 +19,7 @@ public class Main {
             switch (launch) {
                 case "l":
                     LoginInterface.printLoginInterface(connection);
-                    if (LoginInterface.validateAccount(connection, usernameOrEmail, password))
+                    if (LoginInterface.printLoginInterface(connection))
                         loggedIn = true;
                     break;
                 case "s":

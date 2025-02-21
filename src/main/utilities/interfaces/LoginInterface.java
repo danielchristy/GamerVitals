@@ -1,12 +1,11 @@
 package main.utilities.interfaces;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class LoginInterface {
@@ -19,7 +18,7 @@ public class LoginInterface {
     static final String accountLoginPrompt = "Enter Username or Email: ";
     static final String accountPasswordPrompt = "Enter Password: ";
 
-    public static void printLoginInterface(Connection connection) {
+    public static boolean printLoginInterface(Connection connection) {
         System.out.println(loginPrompt);
         System.out.println();
 
@@ -33,10 +32,10 @@ public class LoginInterface {
         // check for user in db
         if (validateAccount(connection, usernameOrEmail, password)) {
             System.out.println("Welcome Back!");
-//            loginUsernameOrEmail = usernameOrEmail;
-//            loginPassword = password;
+                return true;
         } else {
             System.out.println("Account not found. Please try again, or signup.");
+            return false;
         }
     }
 
