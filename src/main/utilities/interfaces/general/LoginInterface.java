@@ -1,4 +1,4 @@
-package main.utilities.interfaces;
+package main.utilities.interfaces.general;
 
 import java.util.Scanner;
 
@@ -7,40 +7,45 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class LoginInterface {
-//    static String loginUsernameOrEmail;
-//    static String loginPassword;
-
     static Scanner scan = new Scanner(System.in);
-
+    static boolean logged_in;
     static final String loginPrompt = "Login to Existing Account - ";
-    static final String accountLoginPrompt = "Enter Username or Email: ";
-    static final String accountPasswordPrompt = "Enter Password: ";
+    static final String accountLoginPrompt = "Enter Username or Email (or [E}xit): > ";
+    static final String accountPasswordPrompt = "Enter Password: > ";
 
     public static boolean printLoginInterface(Connection connection) {
-        System.out.println(loginPrompt);
-        System.out.println();
+        logged_in = false;
 
-        // get existing user account info
-        System.out.println(accountLoginPrompt);
-        String usernameOrEmail = scan.nextLine();
+        while (!logged_in) {
+            System.out.println(loginPrompt);
+            System.out.println();
 
-        System.out.println(accountPasswordPrompt);
-        String password = scan.nextLine();
+            // get existing user account info
+            System.out.print(accountLoginPrompt);
+            String usernameOrEmail = scan.nextLine();
 
-        // check for user in db
-        if (validateAccount(connection, usernameOrEmail, password)) {
-            System.out.println("Welcome Back!");
+            if (usernameOrEmail.equalsIgnoreCase("e")) {
+                System.out.println("Exiting.. ");
+                return false;
+            }
+
+            System.out.print(accountPasswordPrompt);
+            String password = scan.nextLine();
+
+            // check for user in db
+            if (validateAccount(connection, usernameOrEmail, password)) {
+                System.out.println("Welcome Back!");
                 return true;
-        } else {
-            System.out.println("Account not found. Please try again, or signup.");
-            return false;
+            } else {
+                System.out.println("Account not found. \n Please try again, or signup.");
+            }
         }
+        return false;
     }
 
     public static boolean validateAccount(Connection connection, String usernameOrEmail, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? OR username = ?";
+        String sql = "SELECT * FROM users.sql WHERE email = ? OR username = ?;";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, usernameOrEmail);

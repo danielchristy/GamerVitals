@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS vitals.games(
+    game_id SERIAL PRIMARY KEY,
+    game_title VARCHAR(100) UNIQUE NOT NULL,
+    genre VARCHAR(100) NOT NULL,
+    publisher VARCHAR(100) NOT NULL,
+    price MONEY NOT NULL,
+    in_game_purchases BOOLEAN DEFAULT FALSE NOT NULL,
+    release_date DATE NOT NULL,
+    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
