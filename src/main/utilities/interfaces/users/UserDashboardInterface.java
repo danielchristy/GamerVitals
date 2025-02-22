@@ -16,7 +16,7 @@ public class UserDashboardInterface {
             System.out.println("[2] View Stats");
             System.out.println("[3] Return to Main Menu");
             System.out.println("[Q] Logout");
-            System.out.println("[E] Exit");
+            System.out.println("[E] Exit App");
             System.out.print("> ");
 
             String input = scan.nextLine().toLowerCase().trim();
@@ -115,6 +115,7 @@ public class UserDashboardInterface {
     }
 
     private static void viewUserStats(Connection connection, int userId) {
+        System.out.println(outerSectionDivider);
         String query = """
                     SELECT user.username, user.country, game.game_title, us.time_played,
                         COALESCE(us.start_rank, '') AS start_rank,
@@ -134,7 +135,7 @@ public class UserDashboardInterface {
 
             while (rs.next()) {
                 if (!userHasStats) {
-                    System.out.println(outerSectionDivider);
+                    System.out.println(innerSectionDivider);
                     System.out.println("\n=== User Stats ===");
                     System.out.println("Username: " + rs.getString("username"));
                     System.out.println("Country: " + rs.getString("country"));

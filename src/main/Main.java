@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         final String divider = "============================================";
         boolean loggedIn = false;
-
+        int userId = 0;
         System.out.println(divider);
 
         // establish connection to run app
@@ -22,9 +22,10 @@ public class Main {
             while (!loggedIn){
                 switch (launch) {
                     case "l":
-                        LoginInterface.printLoginInterface(connection);
-                        if (LoginInterface.printLoginInterface(connection))
+                        userId = LoginInterface.printLoginInterface(connection);
+                        if (userId != 0) {
                             loggedIn = true;
+                        }
                         break;
                     case "s":
                         SignupInterface.printSignupInterface(connection);
@@ -37,7 +38,7 @@ public class Main {
             }
 
             while (loggedIn) {
-                MainMenuInterface.printMainMenuInterface();
+                MainMenuInterface.printMainMenuInterface(connection, userId);
             }
 
         } catch (SQLException e) {

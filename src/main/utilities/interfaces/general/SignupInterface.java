@@ -20,7 +20,6 @@ public class SignupInterface {
     enum ROLES {PLAYER, DEVELOPER, RECRUITER, ADMIN}
 
     public static void printSignupInterface(Connection connection) {
-        String sql = "INSERT INTO users.sql(username, email, country, password";
 
         System.out.println(signupPrompt);
         System.out.println();

@@ -1,11 +1,7 @@
 package main.utilities.interfaces.general;
 
 import java.util.Scanner;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LoginInterface {
     static Scanner scan = new Scanner(System.in);
@@ -14,7 +10,7 @@ public class LoginInterface {
     static final String accountLoginPrompt = "Enter Username or Email (or [E}xit): > ";
     static final String accountPasswordPrompt = "Enter Password: > ";
 
-    public static boolean printLoginInterface(Connection connection) {
+    public static int printLoginInterface(Connection connection) {
         logged_in = false;
 
         while (!logged_in) {
@@ -27,24 +23,27 @@ public class LoginInterface {
 
             if (usernameOrEmail.equalsIgnoreCase("e")) {
                 System.out.println("Exiting.. ");
-                return false;
+                return 0;
             }
 
             System.out.print(accountPasswordPrompt);
             String password = scan.nextLine();
 
             // check for user in db
-            if (validateAccount(connection, usernameOrEmail, password)) {
+            int userId = validateAccount(connection, usernameOrEmail, password);
+            if (userId != 0) {
                 System.out.println("Welcome Back!");
-                return true;
+                return userId;
             } else {
-                System.out.println("Account not found. \n Please try again, or signup.");
+                System.out.println("Account not found. \n Please try again, or signup. \n");
             }
         }
-        return false;
+
+        // account not validated
+        return 0;
     }
 
-    public static boolean validateAccount(Connection connection, String usernameOrEmail, String password) {
+    public static int validateAccount(Connection connection, String usernameOrEmail, String password) {
         String sql = "SELECT * FROM users.sql WHERE email = ? OR username = ?;";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -56,7 +55,7 @@ public class LoginInterface {
                     String accountPassword = rs.getString("password");
 
                     if (accountPassword.equals(password)) {
-                        return true;
+                        return rs.getInt("user_id");
                     }
                 }
             }
@@ -65,6 +64,7 @@ public class LoginInterface {
         }
 
         // if account info not found above, credentials are invalid
-        return false;
+        return 0;
     }
+
 }
