@@ -14,26 +14,32 @@ public class SearchGamesInterface {
         String gameTitle = scan.nextLine();
 
         String sql = "SELECT * FROM vitals.games WHERE game_title ILIKE ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE)) {
             // formatting for ILIKE - case-insensitive search for game titles
             stmt.setString(1, "%" + gameTitle + "%");
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                System.out.println("Game ID: " + rs.getInt("game_id"));
-                System.out.println("Title: " + rs.getString("game_title"));
-                System.out.println("Genre: " + rs.getString("genre"));
-                System.out.println("Publisher: " + rs.getString("publisher"));
-                System.out.println("Price: " + rs.getString("price"));
-                System.out.println("In Game Purchases: " + (rs.getBoolean("in_game_purchases") ? "YES" : "NO"));
-                System.out.println("Release Date: " + rs.getDate("release_date"));
-                System.out.println(innerSectionDivider);
+            if (rs.next()) {
+                rs.beforeFirst();
+                while (rs.next()) {
+                    System.out.println("Game ID: " + rs.getInt("game_id"));
+                    System.out.println("Title: " + rs.getString("game_title"));
+                    System.out.println("Genre: " + rs.getString("genre"));
+                    System.out.println("Publisher: " + rs.getString("publisher"));
+                    System.out.println("Price: " + rs.getString("price"));
+                    System.out.println("In Game Purchases: " + (rs.getBoolean("in_game_purchases") ? "YES" : "NO"));
+                    System.out.println("Release Date: " + rs.getDate("release_date"));
+                    System.out.println(innerSectionDivider);
+                }
+                System.out.println(outerSectionDivider);
+            } else {
+                System.out.println(gameTitle + " not found..");
             }
-            System.out.println(outerSectionDivider);
-
-        } catch (SQLException e) {
-            System.out.println("Error searching users: " + e.getMessage());
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
-
 }
+
+

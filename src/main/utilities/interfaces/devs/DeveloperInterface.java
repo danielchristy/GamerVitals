@@ -1,5 +1,6 @@
 package main.utilities.interfaces.devs;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -52,8 +53,11 @@ public class DeveloperInterface {
         System.out.print("Publisher: ");
         String publisher = scan.nextLine().trim();
 
+        System.out.println("(Input price format as 00.00)");
         System.out.print("Price: ");
-        double price = Double.parseDouble(scan.nextLine().trim());
+        // converting price input to COST for sql
+        String priceInput = scan.nextLine().trim();
+        BigDecimal price = new BigDecimal(priceInput);
 
         System.out.print("In-game Purchases? (true/false): ");
         boolean inGamePurchases = Boolean.parseBoolean(scan.nextLine().trim());
@@ -68,7 +72,7 @@ public class DeveloperInterface {
             stmt.setString(1, title);
             stmt.setString(2, genre);
             stmt.setString(3, publisher);
-            stmt.setDouble(4, price);
+            stmt.setBigDecimal(4, price);
             stmt.setBoolean(5, inGamePurchases);
             stmt.setDate(6, java.sql.Date.valueOf(releaseDate));
 
@@ -83,8 +87,10 @@ public class DeveloperInterface {
         System.out.print("Enter Game ID to update: ");
         int gameId = Integer.parseInt(scan.nextLine().trim());
 
+        System.out.println("(Input price format as 00.00)");
         System.out.print("New Price: ");
-        double price = Double.parseDouble(scan.nextLine().trim());
+        String priceInput = scan.nextLine().trim();
+        BigDecimal price = new BigDecimal(priceInput);
 
         System.out.print("In-game Purchases? (true/false): ");
         boolean inGamePurchases = Boolean.parseBoolean(scan.nextLine().trim());
@@ -92,7 +98,7 @@ public class DeveloperInterface {
         String query = "UPDATE vitals.games SET price = ?, in_game_purchases = ? WHERE game_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setDouble(1, price);
+            stmt.setBigDecimal(1, price);
             stmt.setBoolean(2, inGamePurchases);
             stmt.setInt(3, gameId);
 

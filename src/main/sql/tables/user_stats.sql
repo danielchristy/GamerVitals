@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS vitals.user_stats(
     user_id INT NOT NULL,
+    username VARCHAR(50),
     game_id INT NOT NULL,
+    game_title VARCHAR(50),
     time_played INT NOT NULL,
     start_rank VARCHAR(50),
     current_rank VARCHAR(50),

@@ -12,7 +12,7 @@ public class RecruiterInterface {
 
         while (true) {
             System.out.println("\n~~~~~~ Recruiter Dashboard ~~~~~~");
-            System.out.println("[1] Search User by Username");
+            System.out.println("[1] Search Players by Username");
             System.out.println("[2] Search Players by Country");
             System.out.println("[3] Search Players by Game");
             System.out.println("[4] Search Players by Rank");
@@ -55,7 +55,7 @@ public class RecruiterInterface {
         System.out.println(outerSectionDivider);
         System.out.print("Enter username to search: ");
         String username = scan.nextLine().trim();
-        String query = "SELECT user_id, username, email, country FROM vitals.users WHERE username ILIKE ?";
+        String query = "SELECT user_id, username, email, country FROM vitals.users WHERE username ILIKE ?;";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, "%" + username + "%");

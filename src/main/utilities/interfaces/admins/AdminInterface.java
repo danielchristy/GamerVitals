@@ -53,7 +53,7 @@ public class AdminInterface {
 
     private static void viewAllUsers(Connection connection) {
         System.out.println(outerSectionDivider);
-        String query = "SELECT user_id, username, email, role FROM vitals.users";
+        String query = "SELECT user_id, username, email, role FROM vitals.users ORDER BY user_id ASC";
 
         try (PreparedStatement stmt = connection.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {

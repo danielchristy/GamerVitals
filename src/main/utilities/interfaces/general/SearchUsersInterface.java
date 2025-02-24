@@ -15,6 +15,7 @@ public class SearchUsersInterface {
         System.out.println(outerSectionDivider);
         System.out.print("Enter username to search: > ");
         String username = scan.nextLine();
+        System.out.println(innerSectionDivider);
 
         String sql = "SELECT user_id, username, role, country FROM vitals.users WHERE username ILIKE ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

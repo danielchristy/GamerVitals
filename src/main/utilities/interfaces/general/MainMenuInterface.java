@@ -11,10 +11,10 @@ import java.util.Scanner;
 public class MainMenuInterface {
     static final private Scanner scan = new Scanner(System.in);
 
-    public static void printMainMenuInterface(Connection connection, int userId) {
+    public static boolean printMainMenuInterface(Connection connection, int userId, boolean loggedIn) {
         String role = getUserRole(connection, userId);
 
-        while (true) {
+        if (loggedIn) {
             System.out.println("\n~~~~~~ Main Menu ~~~~~~");
             System.out.println("[1] User Dashboard");
             System.out.println("[2] Search Users");
@@ -32,31 +32,33 @@ public class MainMenuInterface {
             System.out.println("[E] Exit");
             System.out.print("> ");
 
-            String input = scan.nextLine().toLowerCase().trim();
+            String input = scan.next().toLowerCase().trim();
 
-            switch (input) {
-                case "1":
-                    UserDashboardInterface.printUserDashboard(connection, userId);
-                    break;
-                case "2":
-                    SearchUsersInterface.printSearchUsers(connection);
-                    break;
-                case "3":
-                    SearchGamesInterface.printSearchGames(connection);
-                    break;
-                case "4":
-                    getRoleOptions(connection, role);
-                    break;
-                case "q":
-                    System.out.println("Logging out..");
-                    return;
-                case "e":
-                    System.out.println("Exiting app..");
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid choice. Try again.");
+            if (input.equals("q")) {
+                System.out.println("Logging out..");
+                return false;
+            } else if (input.equals("e")) {
+                System.out.println("Exiting app..");
+                System.exit(0);
+            } else {
+                switch (input) {
+                    case "1":
+                        UserDashboardInterface.printUserDashboard(connection, userId);
+                        break;
+                    case "2":
+                        SearchUsersInterface.printSearchUsers(connection);
+                        break;
+                    case "3":
+                        SearchGamesInterface.printSearchGames(connection);
+                        break;
+                    case "4":
+                        getRoleOptions(connection, role);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Try again.");
+                }
             }
-        }
+        } return true;
     }
 
     private static String getUserRole(Connection connection, int userId) {
